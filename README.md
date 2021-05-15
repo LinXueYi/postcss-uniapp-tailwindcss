@@ -1,54 +1,127 @@
-# PostCSS Plugin Boilerplate
+# PostCSS Uniapp Tailwindcss
 
-<img align="right" width="135" height="95"
-     title="Philosopher’s stone, logo of PostCSS"
-     src="https://postcss.org/logo-leftp.svg">
+[PostCSS] plugin use tailwindcss in uniapp.
 
-Сreate new PostCSS plugins in a few steps:
+[postcss]: https://github.com/postcss/postcss
 
-1. Clone this repository:
+```css
+/* Input example */
 
-    ```sh
-    git clone https://github.com/postcss/postcss-plugin-boilerplate.git
-    ```
+.foo {
+  width: 2px;
+  height: 1rem;
+}
 
-2. Execute the wizard script. It will ask you a few questions
-   and fill all files with your data.
+.w-1\/2,
+.w-0\.5 {
+}
+```
 
-    ```sh
-    node ./postcss-plugin-boilerplate/start
-    ```
+```css
+/* Output example */
+.foo {
+  width: 4rpx;
+  height: 32rpx;
+}
 
-    Call it with `--yarn` argument, if you prefer [yarn](https://yarnpkg.com/)
-    package manager:
+.w-1_2,
+.w-0_5 {
+}
+```
 
-    ```sh
-    node ./postcss-plugin-boilerplate/start --yarn
-    ```
+## Usage
 
-    Or use `--no-install` if you want to skip dependencies installation.
+**Step 1:** Install plugin:
 
-3. Your plugin repository will now have a clean Git history.
-[Create the GitHub repository](https://github.com/new)
-and push your project there.
+```sh
+npm install --save-dev postcss postcss-uniapp-tailwindcss
+```
 
-4. Add your project to [Travis CI](https://travis-ci.org).
+**Step 2:** Check you project for existed PostCSS config: `postcss.config.js`
+in the project root, `"postcss"` section in `package.json`
+or `postcss` in bundle config.
 
-5. Write some code to `index.js` and tests to `index.test.js`.
+If you do not use PostCSS, add it according to [official docs]
+and set this plugin in settings.
 
-6. Execute `npm test` command
+**Step 3:** Add the plugin to plugins list:
 
-7. Add input and output CSS examples to `README.md`.
+```diff
+module.exports = {
+  plugins: [
++   require('tailwindcss'),
++   require('postcss-uniapp-tailwindcss'),
+    require('autoprefixer')
+  ]
+}
+```
 
-8. Add options descriptions if your plugin has them.
+### Options
 
-9. Fill `CHANGELOG.md` with initial version.
+**default options:**
 
-10. Release by calling `npx clean-publish`
-    (this tool will remove development configs from `package.json`).
+```json
+{
+  platform: 'mp',
+  units: {
+    px2rem: 0.25,
+    px2rpx: 2,
+    rem2rpx: 32,
+    px2pt: 0.22,
+    rpx2pt: 0.75,
+    rem2pt: 28.125,
+    'vw2%': 1,
+    'vh2%': 1
+  },
+  unitIgnore: {
+    selector: [],
+    prop: [/^border-.*?width$/],
+    value: []
+  },
+  unitGroup: {
+    h5: ['px2rem'],
+    mp: ['px2rpx', 'rem2rpx'],
+    native: ['px2pt', 'rem2pt', 'rpx2pt', 'vw2%', 'vh2%']
+  },
+  selectorRules: [
+    {
+      pattern: /(\.[\S]+?(?<!>))\s?>\s?:not\(\[(hidden|template)\]\)\s?~\s?:not\(\[(hidden|template)\]\)/g,
+      replacement: '$1 > view + view'
+    },
+    {
+      pattern: /\\:(?!hover|focus)/g,
+      replacement: '_'
+    },
+    {
+      pattern: /\\\//g,
+      replacement: '_'
+    },
+    {
+      pattern: /\.\\/g,
+      replacement: '._'
+    },
+    {
+      pattern: /\\\./g,
+      replacement: '_'
+    },
+    {
+      pattern: /^\*$/,
+      replacement: 'page'
+    }
+  ]
+}
+```
 
-11. Fork [PostCSS](https://github.com/postcss/postcss), add your plugin to the
-[Plugins list](https://github.com/postcss/postcss/blob/main/docs/plugins.md)
-and send a pull request.
+| option                      | type          | description                                  |
+| --------------------------- | ------------- | -------------------------------------------- |
+| units                       | object        | unit conversion scale                        |
+| unitIgnore                  | object        | Do not convert unit rules                    |
+| unitIgnore.selector         | regex\|string | Do not convert declaration's parent selector |
+| unitIgnore.prop             | regex\|string | Do not convert declaration's prop            |
+| unitIgnore.value            | regex\|string | Do not convert declaration's value           |
+| unitGroup                   | object        | unit group by platform                       |
+| selectorRules               | array         | selector replace rules                       |
+| selectorRules[].pattern     | regex\|string | selector replace pattern                     |
+| selectorRules[].replacement | string        | selector replace replacement                 |
 
-11. Follow [@PostCSS](https://twitter.com/postcss) to get the latest updates.
+[official docs]: https://github.com/postcss/postcss#usage

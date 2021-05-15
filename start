@@ -21,19 +21,21 @@ let noInstall = process.argv.includes('--no-install')
 let useYarn = process.argv.includes('--yarn')
 
 let questions = {
-  AUTHOR_NAME: 'Your name: ',
-  AUTHOR_EMAIL: 'Your email: ',
-  GITHUB_NAME: 'GitHub username: ',
-  PLUGIN_NAME: 'Plugin name: postcss-',
-  PLUGIN_DESC: '\nFinish sentence with plugin description:\nPostCSS plugin ',
-  KEYWORDS: '\nFinish plugin keywords:\npostcss, css, postcss-plugin, '
+  LinXueYi: 'Your name: ',
+  695126622@qq.com: 'Your email: ',
+  LinXueYi: 'GitHub username: ',
+  postcss-uniapp-tailwindcss: 'Plugin name: postcss-',
+  use tailwindcss in uniapp: '\nFinish sentence with plugin description:\nPostCSS plugin ',
+  ,
+    "tailwindcss",
+    "uniapp": '\nFinish plugin keywords:\npostcss, css, postcss-plugin, '
 }
 let autodetects = {
-  AUTHOR_NAME: 'git config user.name',
-  AUTHOR_EMAIL: 'git config user.email'
+  LinXueYi: 'git config user.name',
+  695126622@qq.com: 'git config user.email'
 }
 let answers = {
-  YEAR: (new Date()).getFullYear()
+  2021: (new Date()).getFullYear()
 }
 
 function checkCwd () {
@@ -175,20 +177,24 @@ function nextQuestion () {
       }
     })
   } else {
-    answers.PLUGIN_NAME = 'postcss-' + answers.PLUGIN_NAME
-    answers.PLUGIN_TITLE = answers.PLUGIN_NAME
+    answers.postcss-uniapp-tailwindcss = 'postcss-' + answers.postcss-uniapp-tailwindcss
+    answers.PostCSS Uniapp Tailwindcss = answers.postcss-uniapp-tailwindcss
       .replace(/-\w/g, str => {
         return ' ' + str[1].toUpperCase()
       })
       .replace(/^postcss/, 'PostCSS')
-    answers.KEYWORDS = ',\n    ' + answers.KEYWORDS
+    answers.,
+    "tailwindcss",
+    "uniapp" = ',\n    ' + answers.,
+    "tailwindcss",
+    "uniapp"
       .split(',')
       .map(i => {
         return '"' + i.trim() + '"'
       })
       .join(',\n    ')
 
-    let dir = join(__dirname, '..', answers.PLUGIN_NAME)
+    let dir = join(__dirname, '..', answers.postcss-uniapp-tailwindcss)
     let workflows = join(dir, '.github', 'workflows')
     copyFolderSync(__dirname, dir)
     fillFiles(dir)
@@ -200,7 +206,7 @@ function nextQuestion () {
       initProject(dir, () => {
         process.stdout.write(
           '\nDone. Remove this dir and continue work in ' +
-          '../' + answers.PLUGIN_NAME + '/\n'
+          '../' + answers.postcss-uniapp-tailwindcss + '/\n'
         )
         process.exit(0)
       })
