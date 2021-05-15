@@ -60,7 +60,7 @@ module.exports = {
 
 **default options:**
 
-```json
+```js
 {
   platform: 'mp',
   units: {
@@ -116,9 +116,9 @@ module.exports = {
 | --------------------------- | ------------- | -------------------------------------------- |
 | units                       | object        | unit conversion scale                        |
 | unitIgnore                  | object        | Do not convert unit rules                    |
-| unitIgnore.selector         | regex\|string | Do not convert declaration's parent selector |
-| unitIgnore.prop             | regex\|string | Do not convert declaration's prop            |
-| unitIgnore.value            | regex\|string | Do not convert declaration's value           |
+| unitIgnore.selector[]       | regex\|string | Do not convert declaration's parent selector |
+| unitIgnore.prop[]           | regex\|string | Do not convert declaration's prop            |
+| unitIgnore.value[]          | regex\|string | Do not convert declaration's value           |
 | unitGroup                   | object        | unit group by platform                       |
 | selectorRules               | array         | selector replace rules                       |
 | selectorRules[].pattern     | regex\|string | selector replace pattern                     |
